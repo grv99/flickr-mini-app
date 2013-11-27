@@ -19,7 +19,7 @@ function getPublicStream () {
 						+ "</a>"
 						+ "</li>";
 			$('#feeds-div').append(element);
-			sessionStorage.setItem(item.author_id, author);
+			localStorage.setItem(item.author_id, author);
 		});
 		$('#feeds-div').append("</ul>");
 	});
@@ -31,10 +31,12 @@ function getUserPhotos () {
 	userid = path.split("=")[1];
 	url = "http://api.flickr.com/services/feeds/photos_public.gne?id="+ userid +"&lang=en-us&format=json&jsoncallback=?";
 	
-	whoseFeed = sessionStorage.getItem(userid) + "'s feed";
+	whoseFeed = localStorage.getItem(userid) + "'s feed";
 	$('#user').html(whoseFeed);
 	document.title = whoseFeed;
 	$('#friends-feed-link').html("<a href=\"friends-feed.html?id="+ userid +"\">friends' feed &rarr;</a>");
+	
+	loadBuddyIcon(userid);
 
 	$.getJSON(url, function(data) {
 	
@@ -60,7 +62,7 @@ function getFriendsStream () {
 	userid = path.split("=")[1];
 	url = "http://api.flickr.com/services/feeds/photos_friends.gne?user_id="+ userid +"&lang=en-us&format=json&jsoncallback=?";
 	
-	whoseFeed = sessionStorage.getItem(userid) + " friends' feed";
+	whoseFeed = localStorage.getItem(userid) + " friends' feed";
 	$('#user').html(whoseFeed);
 	document.title = whoseFeed;
 	
@@ -81,7 +83,7 @@ function getFriendsStream () {
 						+ "</a>"
 						+ "</li>";
 			$('#feeds-div').append(element);
-			sessionStorage.setItem(item.author_id, author);
+			localStorage.setItem(item.author_id, author);
 		});
 		$('#feeds-div').append("</ul>");
 	});
@@ -105,4 +107,17 @@ function noData() {
 				+ "</div>";
 	$('#feeds-div').html(element);
 	return false;
+}
+
+function loadBuddyIcon(userid) {
+	url_user = "http://api.flickr.com/services/rest/?method=flickr.people.getInfo&api_key=19c30a5af366016df533867bf518a30f&user_id=" + userid;
+	$.get(url_user, function( data ) {
+		user = $(data).find("person");
+		if(user.attr("iconserver") > 0)
+			img_src = "http://farm"+ user.attr("iconfarm") +".staticflickr.com/"+ user.attr("iconserver") +"/buddyicons/"+ userid +".jpg";
+		else
+			img_src = "http://www.flickr.com/images/buddyicon.gif";
+		user_element = "<img src =" + img_src + " class=\"img-rounded \" />";
+		$('#user-details-div').html(user_element);
+	});
 }
