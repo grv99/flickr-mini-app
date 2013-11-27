@@ -2,17 +2,31 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Userpage</title>
+	<title>Flickr</title>
 	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 	<script type="text/javascript" src="js/main.js"></script>
-	<script src="js/bootstrap.min.js"></script>
+	<style type="text/css">
+		body{
+			padding-top: 60px;
+			padding-bottom: 40px;
+		}
+		
+	</style>
 </head>
 <body>
-	<div id="user-details"> Name:</div><br/>
-	<div id="friends-feed-link"> Link to friends feed</div><br/>
-	<div id="feeds-div"> Sorry. We found nothing :( </div>
-
+	<div class="container">
+		<div class="page-header">
+			<h1>Flickr mini-App  <small><span id="user"></span></small><i><small style="float:right;"><span style="margin-bottom:0;" id="friends-feed-link"></span></small></i></h1>
+		</div>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span2"></div>
+				<div id="feeds-div" class="span10"></div>
+			</div>
+		</div>
+	</div>
+	
 	<script type="text/javascript">
 		getUserPhotos();
 	</script>
