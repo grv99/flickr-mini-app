@@ -31,11 +31,12 @@ function getUserPhotos () {
 	userid = path.split("=")[1];
 	url = "http://api.flickr.com/services/feeds/photos_public.gne?id="+ userid +"&lang=en-us&format=json&jsoncallback=?";
 	
-	whoseFeed = localStorage.getItem(userid) + "'s feed";
-	$('#user').html(whoseFeed);
-	document.title = whoseFeed;
-	$('#friends-feed-link').html("<a href=\"friends-feed.html?id="+ userid +"\">friends' feed &rarr;</a>");
-	
+	whoseFeed = localStorage.getItem(userid);
+	whoseFeed = (whoseFeed.length > 25 ? whoseFeed.substr(0,25)+"... " : whoseFeed);
+	$('#user').html(whoseFeed + "'s feed");
+	document.title = whoseFeed + "'s feed";
+	$('#friends-feed-link').attr('href', 'friends-feed.html?id='+ userid);
+
 	loadBuddyIcon(userid);
 
 	$.getJSON(url, function(data) {
@@ -62,9 +63,12 @@ function getFriendsStream () {
 	userid = path.split("=")[1];
 	url = "http://api.flickr.com/services/feeds/photos_friends.gne?user_id="+ userid +"&lang=en-us&format=json&jsoncallback=?";
 	
-	whoseFeed = localStorage.getItem(userid) + " friends' feed";
-	$('#user').html(whoseFeed);
-	document.title = whoseFeed;
+	whoseFeed = localStorage.getItem(userid);
+	whoseFeed = (whoseFeed.length > 22 ? whoseFeed.substr(0,22)+"..." : whoseFeed);
+	$('#user').html(whoseFeed + " friends' feed");
+	document.title = whoseFeed + " friends' feed";
+	$('#user-feed-link').html("&larr; " + whoseFeed + "'s feed");
+	$('#user-feed-link').attr('href', 'userpage.html?id='+ userid);
 	
 	$.getJSON(url, function(data) {
 	
@@ -117,7 +121,7 @@ function loadBuddyIcon(userid) {
 			img_src = "http://farm"+ user.attr("iconfarm") +".staticflickr.com/"+ user.attr("iconserver") +"/buddyicons/"+ userid +".jpg";
 		else
 			img_src = "http://www.flickr.com/images/buddyicon.gif";
-		user_element = "<img src =" + img_src + " class=\"img-rounded \" />";
+		user_element = "<img src =" + img_src + " class=\"img-rounded \" style=\"border: 1px solid #f5f5f5;\" />";
 		$('#user-details-div').html(user_element);
 	});
 }
