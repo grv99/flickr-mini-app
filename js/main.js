@@ -1,14 +1,14 @@
 var app = {
 
 	getPublicStream : function() {
-		url = "http://api.flickr.com/services/feeds/photos_public.gne?lang=en-us&format=json&jsoncallback=?";
+		url = "https://api.flickr.com/services/feeds/photos_public.gne?lang=en-us&format=json&jsoncallback=?";
 		this.fetchAndDisplayPhotos(url, true);
 	},
 
 	getUserPhotos : function() {
 		path = $(location).attr('href');
 		userid = this.getUserId(path);
-		url = "http://api.flickr.com/services/feeds/photos_public.gne?id="+ userid +"&lang=en-us&format=json&jsoncallback=?";
+		url = "https://api.flickr.com/services/feeds/photos_public.gne?id="+ userid +"&lang=en-us&format=json&jsoncallback=?";
 		
 		this.loadBuddyIcon(userid);
 
@@ -24,7 +24,7 @@ var app = {
 	getFriendsStream : function() {
 		path = $(location).attr('href');
 		userid = this.getUserId(path);
-		url = "http://api.flickr.com/services/feeds/photos_friends.gne?user_id="+ userid +"&lang=en-us&format=json&jsoncallback=?";
+		url = "https://api.flickr.com/services/feeds/photos_friends.gne?user_id="+ userid +"&lang=en-us&format=json&jsoncallback=?";
 		
 		this.fetchAndDisplayPhotos(url, true);
 
@@ -75,7 +75,7 @@ var app = {
 	},
 
 	loadBuddyIcon: function (userid) {
-		url_user = "http://api.flickr.com/services/rest/?method=flickr.people.getInfo&api_key=19c30a5af366016df533867bf518a30f&user_id=" + userid;
+		url_user = "https://api.flickr.com/services/rest/?method=flickr.people.getInfo&api_key=19c30a5af366016df533867bf518a30f&user_id=" + userid;
 		$.get(url_user, function( data ) {
 			user = $(data).find("person");
 			if(user.attr("iconserver") > 0)
